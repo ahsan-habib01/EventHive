@@ -3,12 +3,24 @@ import { createBrowserRouter } from "react-router";
 import NotFound from "../pages/NotFound";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
-import AllEvents from "../pages/events/AllEvents";
 import EventDetails from "../pages/events/EventDetails";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
+import UserDashboard from "../pages/Dashboard/UserDashboard";
+import ProfileCard from "../pages/User/ProfileCard";
+import Waitlist from "../pages/User/Waitlist";
+import Contact from "../pages/Home/Contact";
+import About from "../pages/Home/About";
+import AddEvent from "../pages/Manager/AddEvent";
+import Bookings from "../pages/User/Bookings";
+import ManageEvents from "../pages/Admin/ManageEvents";
+import AdminStats from "../pages/Admin/AdminStats";
+import ManageUsers from "../pages/Admin/ManageUsers";
+import AdminAllEvents from "../pages/Admin/AdminAllEvents";
+import AllEvents from "../pages/events/AllEvents";
+import ManagerStats from "../pages/Manager/ManagerStats";
+import MyEvents from "../pages/Manager/MyEvents";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "event/:id",
-        element: <EventDetails />, // পাবলিক ডিটেইলস পেজ
+        element: <EventDetails />,
       },
       {
         path: "login",
@@ -36,80 +48,66 @@ export const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
     ],
   },
   {
     path: "dashboard",
-    element: (
-      <PrivateRoute>
-        <DashboardLayout />
-      </PrivateRoute>
-    ),
-    // children: [
-    //   // -----------------------------------
-    //   // COMMON ROUTES (For All Roles)
-    //   // -----------------------------------
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <UserDashboard></UserDashboard>,
+      },
+      {
+        path: "profile",
+        element: <ProfileCard />,
+      },
+      {
+        path: "bookings",
+        element: <Bookings />,
+      },
+      {
+        path: "waitlist",
+        element: <Waitlist />,
+      },
+      {
+        path: "add-event",
+        element: <AddEvent />,
+      },
+      {
+        path: "manager-stats",
+        element: <ManagerStats />,
+      },
+      {
+        path: "my-events",
+        element: <MyEvents />,
+      },
 
-    //   // -----------------------------------
-    //   // USER ROUTES (Role: User)
-    //   // -----------------------------------
-    //   {
-    //     path: "my-bookings",
-    //     element: <MyBookings />,
-    //   },
-    //   {
-    //     path: "my-waitlist",
-    //     element: <MyWaitlist />,
-    //   },
-
-    //   // -----------------------------------
-    //   // MANAGER ROUTES (Role: Event Manager)
-    //   // -----------------------------------
-    //   {
-    //     path: "add-event",
-    //     element: (
-    //       <ManagerRoute>
-    //         <AddEvent />
-    //       </ManagerRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: "my-events",
-    //     element: (
-    //       <ManagerRoute>
-    //         <MyEvents />
-    //       </ManagerRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: "update-event/:id",
-    //     element: (
-    //       <ManagerRoute>
-    //         <UpdateEvent />
-    //       </ManagerRoute>
-    //     ),
-    //   },
-
-    //   // -----------------------------------
-    //   // ADMIN ROUTES (Role: Admin)
-    //   // -----------------------------------
-    //   {
-    //     path: "admin-home",
-    //     element: (
-    //       <AdminRoute>
-    //         <AdminHome />
-    //       </AdminRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: "manage-users",
-    //     element: (
-    //       <AdminRoute>
-    //         <ManageUsers />
-    //       </AdminRoute>
-    //     ),
-    //   },
-    // ],
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "allevents",
+        element: <AdminAllEvents />,
+      },
+      {
+        path: "manage-events",
+        element: <ManageEvents />,
+      },
+      {
+        path: "adminstats",
+        element: <AdminStats />,
+      },
+    ],
   },
 ]);
 

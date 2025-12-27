@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../hooks/UseAxiosSecure";
 
-
 import EventCard from "../../componets/Event/EventCard";
 import NoEventFound from "../../componets/Event/NoEventFound";
 import Loading from "../../componets/Shared/Loading";
@@ -16,7 +15,7 @@ const AllEvents = () => {
   const [priceSort, setPriceSort] = useState("");
 
   // Fetch events
-  const { data: events = [], isLoading } = useQuery({
+  const { data: eventsRaw = [], isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
       const res = await axiosSecure.get("/events");
@@ -24,7 +23,10 @@ const AllEvents = () => {
     },
   });
 
-   const filteredEvents = events
+  // Defensive: ensure events is always an array
+  const events = Array.isArray(eventsRaw) ? eventsRaw : [];
+
+  const filteredEvents = events
     .filter(
       (item) =>
         item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -35,7 +37,6 @@ const AllEvents = () => {
       if (priceSort === "high") return b.price - a.price;
       return 0; 
     });
-
 
   // Reset page when search changes
   useEffect(() => {
@@ -67,7 +68,7 @@ const AllEvents = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-                {/* Price Filter */}
+        {/* Price Filter */}
         <select
           value={priceSort}
           onChange={(e) => setPriceSort(e.target.value)}
@@ -77,7 +78,6 @@ const AllEvents = () => {
           <option value="low">Price: Low to High</option>
           <option value="high">Price: High to Low</option>
         </select>
-
       </div>
 
       <Suspense fallback={<Loading />}>
