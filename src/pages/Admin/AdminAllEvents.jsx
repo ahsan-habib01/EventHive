@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Trash2, Calendar, Search, User, Globe } from "lucide-react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
 
 const AllEvents = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosSecure = UseAxiosSecure();
 
   // 1. Fetch All Events
   const { data: events = [], refetch, isLoading } = useQuery({

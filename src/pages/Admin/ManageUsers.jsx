@@ -1,12 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { FaTrashAlt, FaUserShield, FaUserTie } from "react-icons/fa";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import {
+  Trash2,
+  ShieldCheck,
+  UserCheck,
+  AlertCircle,
+  Users,
+  Mail,
+} from "lucide-react"; // Icons changed
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
 
 const ManageUsers = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosSecure = UseAxiosSecure();
 
-  // ১. সব ইউজার ডাটা নিয়ে আসা
+  // ১. সব ইউজার ডাটা নিয়ে আসা
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -18,168 +25,225 @@ const ManageUsers = () => {
   // ২. ম্যানেজার বানানোর ফাংশন
   const handleMakeManager = (user) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: `${user.name} will be promoted to Manager!`,
-      icon: "warning",
+      title: "Send Promotion Request?",
+      text: `${user.name}'s request will be marked as pending.`,
+      icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#000",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Promote!",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Send Request",
+      customClass: {
+        popup: "rounded-2xl",
+        confirmButton: "rounded-xl",
+        cancelButton: "rounded-xl",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/users/make-manager/${user._id}`).then((res) => {
+        axiosSecure.patch(`/users/admin/${user?._id}`).then((res) => {
           if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
-              title: "Success!",
-              text: `${user.name} is now a Manager!`,
+              title: "Request Sent!",
+              text: `${user.name}'s promotion request is now pending.`,
               icon: "success",
-              confirmButtonColor: "#000",
+              confirmButtonColor: "#10b981",
+              customClass: {
+                popup: "rounded-2xl",
+                confirmButton: "rounded-xl",
+              },
             });
           }
         });
       }
     });
   };
-
-  // ৩. ইউজার ডিলিট করার ফাংশন (Optional)
   const handleDeleteUser = (user) => {
     Swal.fire({
       title: "Delete User?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#000",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete",
+      customClass: {
+        popup: "rounded-2xl",
+        confirmButton: "rounded-xl",
+        cancelButton: "rounded-xl",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/users/${user._id}`).then((res) => {
-          if (res.data.deletedCount > 0) {
-            refetch();
+        axiosSecure
+          .delete(`/users/delete/${user._id}`)
+          .then((res) => {
+            // Check for success instead of deletedCount
+            if (res.data.success) {
+              refetch(); // Refetch the users list
+              Swal.fire({
+                title: "Deleted!",
+                text: "User account has been removed.",
+                icon: "success",
+                confirmButtonColor: "#000",
+                customClass: {
+                  popup: "rounded-2xl",
+                  confirmButton: "rounded-xl",
+                },
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Delete error:", error);
             Swal.fire({
-              title: "Deleted!",
-              text: "User has been deleted.",
-              icon: "success",
-              confirmButtonColor: "#000",
+              title: "Error!",
+              text: error.response?.data?.message || "Failed to delete user.",
+              icon: "error",
+              confirmButtonColor: "#ef4444",
             });
-          }
-        });
+          });
       }
     });
   };
 
   return (
-    <div className="w-full px-4 sm:px-8 py-8 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
+      {/* Header Section */}
+      <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
         <div>
-          <h1 className="text-3xl font-black text-gray-800">Manage Users</h1>
-          <p className="text-gray-600 font-bold mt-1">
-            Total Users: {users.length}
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            Manage Users
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Total{" "}
+            <span className="font-semibold text-gray-900">{users.length}</span>{" "}
+            registered users
           </p>
         </div>
 
-        {/* Stat Badge */}
-        <div className="bg-yellow-100 px-6 py-2 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-lg">
-          <span className="font-bold text-yellow-800">
-            🔔 Pending Requests:{" "}
-            {users.filter((u) => u.status === "requested").length}
-          </span>
-        </div>
+        {/* Pending Request Badge */}
+        {users.filter((u) => u.status === "requested").length > 0 && (
+          <div className="flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl text-amber-600 border border-amber-100 animate-pulse">
+            <AlertCircle size={18} />
+            <span className="text-sm font-semibold">
+              {users.filter((u) => u.status === "requested").length} Pending
+              Requests
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Table Container */}
-      <div className="overflow-x-auto bg-white border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-        <table className="table w-full">
-          {/* Table Head */}
-          <thead className="bg-gray-100 text-black font-black uppercase text-sm border-b-2 border-black">
-            <tr>
-              <th className="py-4 pl-6">#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th className="text-center">Action</th>
+      {/* Table Section */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          {/* Head */}
+          <thead>
+            <tr className="bg-gray-50/50 border-b border-gray-100">
+              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                #
+              </th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                User Profile
+              </th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Role
+              </th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+                Actions
+              </th>
             </tr>
           </thead>
 
-          {/* Table Body */}
-          <tbody>
+          {/* Body */}
+          <tbody className="divide-y divide-gray-100">
             {users.map((user, index) => (
               <tr
                 key={user._id}
-                className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                className="group hover:bg-gray-50/50 transition-colors duration-200"
               >
-                <th className="pl-6 font-bold">{index + 1}</th>
-
-                {/* Name */}
-                <td>
-                  <div className="font-bold text-gray-700">{user.name}</div>
+                <td className="px-6 py-4 text-sm text-gray-500 font-medium">
+                  {(index + 1).toString().padStart(2, "0")}
                 </td>
 
-                {/* Email */}
-                <td className="font-mono text-sm text-gray-600">
-                  {user.email}
+                {/* Name & Email */}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-sm">
+                      {user.image ? (
+                        <img
+                          src={user.image}
+                          alt=""
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        user.name?.charAt(0)
+                      )}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 text-sm">
+                        {user.name}
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                        <Mail size={10} /> {user.email}
+                      </div>
+                    </div>
+                  </div>
                 </td>
 
                 {/* Role Badge */}
-                <td>
+                <td className="px-6 py-4">
                   {user.role === "admin" ? (
-                    <span className="flex items-center gap-1 font-bold text-red-600 bg-red-100 px-2 py-1 rounded w-fit border border-red-200">
-                      <FaUserShield /> Admin
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-600 border border-purple-100">
+                      <ShieldCheck size={12} /> Admin
                     </span>
                   ) : user.role === "manager" ? (
-                    <span className="flex items-center gap-1 font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded w-fit border border-blue-200">
-                      <FaUserTie /> Manager
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
+                      <UserCheck size={12} /> Manager
                     </span>
                   ) : (
-                    <span className="font-bold text-green-600 bg-green-100 px-2 py-1 rounded w-fit border border-green-200">
-                      User
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-500 border border-gray-100">
+                      <Users size={12} /> User
                     </span>
                   )}
                 </td>
 
-                {/* Status / Request Check */}
-                <td>
+                {/* Status Badge */}
+                <td className="px-6 py-4">
                   {user.status === "requested" ? (
-                    <span className="animate-pulse font-black text-xs bg-yellow-300 text-black px-2 py-1 border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      REQUESTED!
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-100">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                      Requested
                     </span>
                   ) : (
-                    <span className="text-gray-400 text-xs font-bold">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
                       Verified
                     </span>
                   )}
                 </td>
 
                 {/* Actions */}
-                <td className="flex justify-center gap-3 py-4">
-                  {/* Make Manager Button */}
-                  {user.role === "manager" ? (
+                <td className="px-6 py-4 text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    {/* Make Manager Button */}
+                    {user.status === "requested" && (
+                      <button
+                        onClick={() => handleMakeManager(user)}
+                        className="p-2 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border border-blue-100"
+                        title="Promote to Manager"
+                      >
+                        <UserCheck size={16} />
+                      </button>
+                    )}
+                    {/* Delete Button */}
                     <button
-                      disabled
-                      className="btn btn-sm btn-disabled bg-gray-200 text-gray-400 border border-gray-300"
+                      onClick={() => handleDeleteUser(user)}
+                      className="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors border border-red-100"
+                      title="Delete User"
                     >
-                      Manager
+                      <Trash2 size={16} />
                     </button>
-                  ) : (
-                    <button
-                      onClick={() => handleMakeManager(user)}
-                      className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
-                      title="Promote to Manager"
-                    >
-                      <FaUserTie /> Make Manager
-                    </button>
-                  )}
-
-                  {/* Delete Button */}
-                  <button
-                    onClick={() => handleDeleteUser(user)}
-                    className="btn btn-sm bg-red-500 hover:bg-red-600 text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
-                  >
-                    <FaTrashAlt />
-                  </button>
+                  </div>
                 </td>
               </tr>
             ))}

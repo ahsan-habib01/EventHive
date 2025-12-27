@@ -14,10 +14,13 @@ import Contact from "../pages/Home/Contact";
 import About from "../pages/Home/About";
 import AddEvent from "../pages/Manager/AddEvent";
 import Bookings from "../pages/User/Bookings";
-import AllEvents from "../pages/Admin/AllEvents";
 import ManageEvents from "../pages/Admin/ManageEvents";
 import AdminStats from "../pages/Admin/AdminStats";
 import ManageUsers from "../pages/Admin/ManageUsers";
+import AdminAllEvents from "../pages/Admin/AdminAllEvents";
+import AllEvents from "../pages/events/AllEvents";
+import ManagerStats from "../pages/Manager/ManagerStats";
+import MyEvents from "../pages/Manager/MyEvents";
 
 export const router = createBrowserRouter([
   {
@@ -76,19 +79,28 @@ export const router = createBrowserRouter([
         element: <Waitlist />,
       },
       {
-        path: "addevent",
+        path: "add-event",
         element: <AddEvent />,
       },
       {
-        path: "ManageUsers",
+        path: "manager-stats",
+        element: <ManagerStats />,
+      },
+      {
+        path: "my-events",
+        element: <MyEvents />,
+      },
+
+      {
+        path: "manage-users",
         element: <ManageUsers />,
       },
       {
         path: "allevents",
-        element: <AllEvents />,
+        element: <AdminAllEvents />,
       },
       {
-        path: "manageevents",
+        path: "manage-events",
         element: <ManageEvents />,
       },
       {

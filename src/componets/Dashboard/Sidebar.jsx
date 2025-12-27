@@ -1,4 +1,4 @@
-import { NavLink } from "react-router"; 
+import { NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
@@ -146,46 +146,34 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             </div>
 
             <NavLink
-              to="/dashboard/admin"
+              to="/dashboard/manager-stats"
               className={linkClass}
               title="Admin Home"
             >
               <span className="text-xl">
                 <House size={20} />
               </span>
-              {!isCollapsed && <span className="text-sm">Admin Home</span>}
+              {!isCollapsed && <span className="text-sm">Manger Home</span>}
             </NavLink>
             <NavLink
-              to="/dashboard/manage-users"
+              to="/dashboard/add-event"
               className={linkClass}
               title="Manage Users"
             >
               <span className="text-xl">
                 <Users size={20} />
               </span>
-              {!isCollapsed && <span className="text-sm">Manage Users</span>}
+              {!isCollapsed && <span className="text-sm">Add Event</span>}
             </NavLink>
             <NavLink
-              to="/dashboard/manage-lessons"
+              to="/dashboard/my-events"
               className={linkClass}
               title="Manage Lessons"
             >
               <span className="text-xl">
                 <FolderKanban size={20} />
               </span>
-              {!isCollapsed && <span className="text-sm">Manage Lessons</span>}
-            </NavLink>
-            <NavLink
-              to="/dashboard/reported-lessons"
-              className={linkClass}
-              title="Reported Lessons"
-            >
-              <span className="text-xl">
-                <Flag size={20} />
-              </span>
-              {!isCollapsed && (
-                <span className="text-sm">Reported Lessons</span>
-              )}
+              {!isCollapsed && <span className="text-sm">My Events</span>}
             </NavLink>
           </>
         )}
@@ -204,7 +192,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             </div>
 
             <NavLink
-              to="/dashboard/admin"
+              to="/dashboard/adminstats"
               className={linkClass}
               title="Admin Home"
             >
@@ -224,26 +212,14 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               {!isCollapsed && <span className="text-sm">Manage Users</span>}
             </NavLink>
             <NavLink
-              to="/dashboard/manage-lessons"
+              to="/dashboard/manage-events"
               className={linkClass}
               title="Manage Lessons"
             >
               <span className="text-xl">
                 <FolderKanban size={20} />
               </span>
-              {!isCollapsed && <span className="text-sm">Manage Lessons</span>}
-            </NavLink>
-            <NavLink
-              to="/dashboard/reported-lessons"
-              className={linkClass}
-              title="Reported Lessons"
-            >
-              <span className="text-xl">
-                <Flag size={20} />
-              </span>
-              {!isCollapsed && (
-                <span className="text-sm">Reported Lessons</span>
-              )}
+              {!isCollapsed && <span className="text-sm">Manage Events</span>}
             </NavLink>
           </>
         )}

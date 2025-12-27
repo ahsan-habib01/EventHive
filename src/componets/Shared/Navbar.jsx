@@ -1,10 +1,22 @@
-import React from "react";
-import { Link, NavLink } from "react-router";
-import useAuth from "../../hooks/useAuth";
-import Logo from "./logo";
+import React from 'react';
+import { Link, NavLink, useNavigate } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+import ThemeToggle from './ThemeToggle';
+import Logo from './logo';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, signout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    signout()
+      .then(() => {
+        navigate('login');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const navOptions = (
     <>
@@ -14,8 +26,8 @@ const Navbar = () => {
           className={({ isActive }) =>
             `px-6 py-2 rounded-full transition-all duration-300 font-medium ${
               isActive
-                ? "bg-primary text-primary-content font-bold"
-                : "hover:bg-primary hover:text-primary-content text-base-content/80"
+                ? 'bg-primary text-primary-content font-bold'
+                : 'hover:bg-primary hover:text-primary-content text-base-content/80'
             }`
           }
         >
@@ -28,8 +40,8 @@ const Navbar = () => {
           className={({ isActive }) =>
             `px-6 py-2 rounded-full transition-all duration-300 font-medium ${
               isActive
-                ? "bg-primary text-primary-content font-bold"
-                : "hover:bg-primary hover:text-primary-content text-base-content/80"
+                ? 'bg-primary text-primary-content font-bold'
+                : 'hover:bg-primary hover:text-primary-content text-base-content/80'
             }`
           }
         >
@@ -107,6 +119,11 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 gap-2">{navOptions}</ul>
         </div>
         <div className="navbar-end">
+          {/* ahsan */}
+          <div className='mr-6'>
+            <ThemeToggle></ThemeToggle>
+          </div>
+
           {user ? (
             <div className="dropdown dropdown-end">
               <div
@@ -119,7 +136,7 @@ const Navbar = () => {
                     alt="User Avatar"
                     src={
                       user?.photoURL ||
-                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'
                     }
                   />
                 </div>
@@ -135,7 +152,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <button onClick={logout}>Logout</button>
+                  <button onClick={handleSignOut}>Logout</button>
                 </li>
               </ul>
             </div>
