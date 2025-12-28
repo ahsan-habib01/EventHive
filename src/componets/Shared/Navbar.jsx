@@ -169,10 +169,10 @@ const Navbar = () => {
               <NavLink
                 to="/register"
                 className={({ isActive }) =>
-                  `btn btn-sm rounded-full px-6 font-bold h-10 min-h-10 transition-all ${
+                  `px-6 py-2 rounded-full font-bold transition-all duration-300 ${
                     isActive
-                      ? "btn-primary"
-                      : "bg-primary/90 text-primary-content hover:bg-primary"
+                      ? "bg-primary text-primary-content"
+                      : "bg-primary/80 text-primary-content hover:bg-primary"
                   }`
                 }
               >
