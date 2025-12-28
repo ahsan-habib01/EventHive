@@ -3,14 +3,13 @@ import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 
-const SocialLogin = () => {
+const SocialLogin = ({ redirectTo }) => {
   const { googleLogin } = useAuth();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
     googleLogin()
-      .then(result => {
+      .then((result) => {
         console.log(result.user);
         // create user in the database - match the same fields as Register.jsx
         const userInfo = {
@@ -40,7 +39,7 @@ const SocialLogin = () => {
             navigate(location.state || '/');
           });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };

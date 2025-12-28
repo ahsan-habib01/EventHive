@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import UseAxiosSecure from "../../hooks/UseAxiosSecure";
-
+import api from "../../utils/api";
 
 import EventCard from "../../componets/Event/EventCard";
 import NoEventFound from "../../componets/Event/NoEventFound";
@@ -10,21 +9,23 @@ import Loading from "../../componets/Shared/Loading";
 const ITEMS_PER_PAGE = 12;
 
 const AllEvents = () => {
-  const axiosSecure = UseAxiosSecure();
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [priceSort, setPriceSort] = useState("");
 
   // Fetch events
-  const { data: events = [], isLoading } = useQuery({
+  const { data: eventsRaw = [], isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/events");
+      const res = await api.get("/events");
       return res.data;
     },
   });
 
-   const filteredEvents = events
+  // Defensive: ensure events is always an array
+  const events = Array.isArray(eventsRaw) ? eventsRaw : [];
+
+  const filteredEvents = events
     .filter(
       (item) =>
         item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -33,9 +34,8 @@ const AllEvents = () => {
     .sort((a, b) => {
       if (priceSort === "low") return a.price - b.price;
       if (priceSort === "high") return b.price - a.price;
-      return 0; // no sorting
+      return 0; 
     });
-
 
   // Reset page when search changes
   useEffect(() => {
@@ -67,7 +67,7 @@ const AllEvents = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-                {/* Price Filter */}
+        {/* Price Filter */}
         <select
           value={priceSort}
           onChange={(e) => setPriceSort(e.target.value)}
@@ -77,7 +77,6 @@ const AllEvents = () => {
           <option value="low">Price: Low to High</option>
           <option value="high">Price: High to Low</option>
         </select>
-
       </div>
 
       <Suspense fallback={<Loading />}>
