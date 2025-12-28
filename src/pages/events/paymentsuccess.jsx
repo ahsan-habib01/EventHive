@@ -117,7 +117,7 @@ const PaymentSuccess = () => {
               <Link to="/" className="btn btn-outline">
                 Back to Home
               </Link>
-              <Link to="/user/bookings" className="btn btn-primary">
+              <Link to="/dashboard/bookings" className="btn btn-primary">
                 View My Bookings
               </Link>
             </div>
