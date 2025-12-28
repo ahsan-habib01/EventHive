@@ -1,30 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { Trash2, Ticket, MapPin, CalendarDays } from "lucide-react"; // Using Lucide for cleaner look
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Trash2, Ticket, MapPin, CalendarDays } from "lucide-react";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 
 const Bookings = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosSecure = UseAxiosSecure();
 
-  // ১. ডাটা আনা (Logic Unchanged)
-  const {
-    data: bookings = [],
-    refetch,
-    // isLoading, // Not used in UI but kept for logic consistency
-  } = useQuery({
+  const { data: bookings = [], refetch } = useQuery({
     queryKey: ["my-bookings", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/bookings/${user?.email}`);
-      // শুধু কনফার্মড বুকিং ফিল্টার করা
       return res.data.filter((booking) => booking.status === "confirmed");
     },
   });
 
-  // ২. বুকিং ক্যানসেল ফাংশন
-  const handleCancel = (id) => {
-    Swal.fire({
+  const handleCancel = async (id) => {
+    const result = await Swal.fire({
       title: "Cancel Ticket?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -37,33 +30,42 @@ const Bookings = () => {
         confirmButton: "rounded-xl",
         cancelButton: "rounded-xl",
       },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await axiosSecure.delete(`/bookings/${id}`);
-          if (res.data.success || res.data.message) {
-            refetch();
-            Swal.fire({
-              title: "Cancelled!",
-              text: res.data.message || "Your ticket has been cancelled.",
-              icon: "success",
-              confirmButtonColor: "#10b981",
-              customClass: {
-                popup: "rounded-2xl",
-                confirmButton: "rounded-xl",
-              },
-            });
-          }
-        } catch (error) {
+    });
+
+    if (result.isConfirmed) {
+      try {
+        // Ensure fresh token
+        const token = await user.getIdToken(true);
+        console.log("Token for delete:", token ? "exists" : "missing");
+        console.log("Deleting booking:", id);
+        
+        const res = await axiosSecure.delete(`/bookings/${id}`);
+        console.log("Delete response:", res.data);
+        
+        if (res.data.success || res.data.message) {
+          refetch();
           Swal.fire({
-            title: "Error!",
-            text: error.response?.data?.message || "Failed to cancel booking.",
-            icon: "error",
-            customClass: { popup: "rounded-2xl", confirmButton: "rounded-xl" },
+            title: "Cancelled!",
+            text: res.data.message || "Your ticket has been cancelled.",
+            icon: "success",
+            confirmButtonColor: "#10b981",
+            customClass: {
+              popup: "rounded-2xl",
+              confirmButton: "rounded-xl",
+            },
           });
         }
+      } catch (error) {
+        console.error("Delete error:", error);
+        console.error("Error response:", error.response?.data);
+        Swal.fire({
+          title: "Error!",
+          text: error.response?.data?.message || error.message || "Failed to cancel booking.",
+          icon: "error",
+          customClass: { popup: "rounded-2xl", confirmButton: "rounded-xl" },
+        });
       }
-    });
+    }
   };
 
   return (
@@ -135,7 +137,7 @@ const Bookings = () => {
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img
-                          src={item.eventImage}
+                          src={item.image}
                           alt="Event"
                           className="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-sm group-hover:scale-105 transition-transform duration-300"
                         />
@@ -165,7 +167,7 @@ const Bookings = () => {
 
                   <td className="px-6 py-4">
                     <span className="font-bold text-gray-900">
-                      ${item.price}
+                      ৳ {item.price}
                     </span>
                   </td>
 
