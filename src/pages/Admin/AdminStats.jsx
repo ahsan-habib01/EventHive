@@ -55,7 +55,7 @@ const AdminStats = () => {
     },
     {
       title: "Total Revenue",
-      value: `$${totalRevenue}`,
+      value: `Tk ${totalRevenue}`,
       icon: DollarSign,
       color: "text-emerald-600",
       bg: "bg-emerald-50",

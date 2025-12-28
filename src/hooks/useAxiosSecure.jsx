@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthContext";
 
@@ -12,38 +12,22 @@ const UseAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // intercept request - FETCH FRESH TOKEN ON EVERY REQUEST
-    const reqInterceptor = axiosSecure.interceptors.request.use(
-      async (config) => {
-        if (user) {
-          try {
-            // Get fresh token for every request
-            const freshToken = await user.getIdToken();
-            config.headers.Authorization = `Bearer ${freshToken}`;
-            console.log("✅ Token added to request:", config.url);
-          } catch (error) {
-            console.error("❌ Error getting token:", error);
-          }
-        } else {
-          console.log("⚠️ No user, skipping auth header");
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+    // intercept request
+    const reqInterceptor = axiosSecure.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${user?.accessToken}`;
+      return config;
+    });
 
     // interceptor response
     const resInterceptor = axiosSecure.interceptors.response.use(
       (response) => {
-        console.log("✅ Response from:", response.config.url, response.status);
+        // console.log("Response from:", response.config.url, response.status);
         return response;
       },
       (error) => {
-        console.log("❌ Axios Error:", error.message);
-        console.log("❌ Status:", error.response?.status);
-        console.log("❌ Data:", error.response?.data);
+        console.log("Axios Error:", error.message);
+        console.log("Status:", error.response?.status);
+        console.log("Data:", error.response?.data);
 
         const statusCode = error.response?.status;
         if (statusCode === 401 || statusCode === 403) {

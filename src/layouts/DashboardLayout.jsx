@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
-import Navbar from "../componets/Shared/Navbar";
 import Sidebar from "../componets/Dashboard/Sidebar";
-import Footer from "../componets/Shared/Footer";
 
 const DashboardLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -12,7 +10,7 @@ const DashboardLayout = () => {
       {/* Navbar - Top */}
 
       {/* Main Area - Sidebar + Content */}
-      <div className="flex flex-1 mt-16">
+      <div className="flex flex-1 mt-1">
         {/* Sidebar */}
         <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 

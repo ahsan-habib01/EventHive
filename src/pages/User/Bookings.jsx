@@ -155,7 +155,7 @@ const Bookings = () => {
                     </div>
                   </td>
 
-                  <td className="px-6 py-4 font-bold">${item.price}</td>
+                  <td className="px-6 py-4 font-bold">Tk {item.price}</td>
 
                   <td className="px-6 py-4 text-right">
                     <button
