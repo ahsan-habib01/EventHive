@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -41,8 +40,7 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
-      
-    }).then(()=>setloading(false));
+    }).then(() => setloading(false));
   };
   const signIn = (email, password) => {
     setloading(true);
@@ -54,7 +52,7 @@ const AuthProvider = ({ children }) => {
   };
   const forgetPass = (email) => {
     setloading(true);
-    return sendPasswordResetEmail(auth, email)
+    return sendPasswordResetEmail(auth, email);
   };
   const authInfo = {
     createUserEP,

@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
-  const { user, logOut: signout } = useAuth();
+  const { user, signout } = useAuth();
   const [role] = useRole();
 
   const isManager = role === "manager";
