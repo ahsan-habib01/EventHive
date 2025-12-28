@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router';
-import useAuth from '../../hooks/useAuth';
-import { Eye, EyeOff } from 'lucide-react';
-import SocialLogin from './SocialLogin';
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import { Eye, EyeOff } from "lucide-react";
+import SocialLogin from "./SocialLogin";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const {
@@ -18,25 +18,25 @@ const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = data => {
+  const handleLogin = (data) => {
     signIn(data.email, data.password)
       .then(() => {
-        navigate(location?.state || '/');
+        navigate(location?.state || "/");
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   const handleForgetPassword = async () => {
     const { value: email } = await Swal.fire({
-      title: 'Reset Password',
-      input: 'email',
-      inputLabel: 'Enter your email address',
-      inputPlaceholder: 'example@email.com',
+      title: "Reset Password",
+      input: "email",
+      inputLabel: "Enter your email address",
+      inputPlaceholder: "example@email.com",
       showCancelButton: true,
-      confirmButtonText: 'Send Reset Link',
-      inputValidator: value => {
+      confirmButtonText: "Send Reset Link",
+      inputValidator: (value) => {
         if (!value) {
-          return 'Email is required';
+          return "Email is required";
         }
       },
     });
@@ -47,15 +47,15 @@ const Login = () => {
       await forgetPass(email);
 
       Swal.fire({
-        icon: 'success',
-        title: 'Email Sent',
-        text: 'Check your inbox for the password reset link.',
+        icon: "success",
+        title: "Email Sent",
+        text: "Check your inbox for the password reset link.",
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Failed',
-        text: error?.message || 'Could not send reset email',
+        icon: "error",
+        title: "Failed",
+        text: error?.message || "Could not send reset email",
       });
     }
   };

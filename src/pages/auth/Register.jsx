@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router';
-import axios from 'axios';
-import useAuth from '../../hooks/useAuth';
-import SocialLogin from './SocialLogin';
-import { Eye, EyeOff } from 'lucide-react';
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import SocialLogin from "./SocialLogin";
+import { Eye, EyeOff } from "lucide-react";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -19,7 +19,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegistration = async data => {
+  const handleRegistration = async (data) => {
     try {
       const profileImg = data.photo[0];
 
@@ -28,7 +28,7 @@ const Register = () => {
 
       // 2. Upload image
       const formData = new FormData();
-      formData.append('image', profileImg);
+      formData.append("image", profileImg);
 
       const image_API_URL = `https://api.imgbb.com/1/upload?key=${
         import.meta.env.VITE_image_host_key
@@ -45,31 +45,31 @@ const Register = () => {
         name: data.name,
         email: data.email,
         photoURL,
-        role: 'user',
-        status: 'verified',
+        role: "user",
+        status: "verified",
       };
 
       await axios.post(
-        'https://event-hive-server-team.vercel.app/users',
+        "https://event-hive-server-team.vercel.app/users",
         userInfo
       );
 
       // 5. Navigate
-      navigate(location?.state || '/', { replace: true });
+      navigate(location?.state || "/", { replace: true });
     } catch (error) {
-      let message = 'Something went wrong';
+      let message = "Something went wrong";
 
-      if (error.code === 'auth/email-already-in-use') {
-        message = 'This email is already registered';
-      } else if (error.code === 'auth/weak-password') {
-        message = 'Password is too weak';
-      } else if (error.code === 'auth/invalid-email') {
-        message = 'Invalid email address';
+      if (error.code === "auth/email-already-in-use") {
+        message = "This email is already registered";
+      } else if (error.code === "auth/weak-password") {
+        message = "Password is too weak";
+      } else if (error.code === "auth/invalid-email") {
+        message = "Invalid email address";
       }
 
       Swal.fire({
-        icon: 'error',
-        title: 'Registration Failed',
+        icon: "error",
+        title: "Registration Failed",
         text: message,
       });
     }
