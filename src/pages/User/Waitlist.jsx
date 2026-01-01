@@ -1,42 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import { Trash2, Clock, Calendar, AlertCircle } from "lucide-react"; // Icons changed to Lucide
+import { Trash2, Clock, Calendar, AlertCircle } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import Loading from "../../componets/Shared/Loading";
 
 const Waitlist = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosSecure = UseAxiosSecure();
 
-  // ১. ডাটা আনা (Logic Unchanged)
   const {
     data: waitlist = [],
     refetch,
-    // isLoading,
+    isLoading,
   } = useQuery({
     queryKey: ["my-waitlist", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/bookings/${user?.email}`);
-      // শুধু ওয়েটলিস্ট ফিল্টার করা
       return res.data.filter((booking) => booking.status === "waitlist");
     },
   });
 
-  // ২. বুকিং ক্যানসেল ফাংশন (Logic Unchanged)
   const handleLeaveWaitlist = (id) => {
     Swal.fire({
       title: "Leave Waitlist?",
       text: "You will lose your spot in line!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#ef4444", // Red-500
-      cancelButtonColor: "#6b7280", // Gray-500
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, Leave",
       customClass: {
-        popup: 'rounded-2xl',
-        confirmButton: 'rounded-xl',
-        cancelButton: 'rounded-xl'
-      }
+        popup: "rounded-2xl",
+        confirmButton: "rounded-xl",
+        cancelButton: "rounded-xl",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/bookings/${id}`).then((res) => {
@@ -46,8 +44,11 @@ const Waitlist = () => {
               title: "Removed!",
               text: "You have left the waitlist.",
               icon: "success",
-              confirmButtonColor: "#10b981", // Emerald-500
-              customClass: { popup: 'rounded-2xl', confirmButton: 'rounded-xl' }
+              confirmButtonColor: "#10b981",
+              customClass: {
+                popup: "rounded-2xl",
+                confirmButton: "rounded-xl",
+              },
             });
           }
         });
@@ -55,19 +56,24 @@ const Waitlist = () => {
     });
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
-      
       {/* Header Section */}
       <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
         <div>
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              Waitlist Status
-            </h2>
-            <p className="text-sm text-gray-500 mt-1">Track your position for upcoming events</p>
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            Waitlist Status
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Track your position for upcoming events
+          </p>
         </div>
         <div className="bg-orange-50 p-2 rounded-lg text-orange-500">
-            <Clock size={24} />
+          <Clock size={24} />
         </div>
       </div>
 
@@ -77,8 +83,12 @@ const Waitlist = () => {
           <div className="bg-gray-50 p-4 rounded-full mb-4">
             <AlertCircle size={32} className="text-gray-300" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No active waitlists</h3>
-          <p className="text-gray-500 text-sm mt-1">You are not currently waiting for any events.</p>
+          <h3 className="text-lg font-medium text-gray-900">
+            No active waitlists
+          </h3>
+          <p className="text-gray-500 text-sm mt-1">
+            You are not currently waiting for any events.
+          </p>
         </div>
       ) : (
         <div className="overflow-x-auto">
@@ -86,14 +96,24 @@ const Waitlist = () => {
             {/* Head */}
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100">
-                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">#</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Event Name</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Request Date</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Current Status</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Action</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  #
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Event Name
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Request Date
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Current Status
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+                  Action
+                </th>
               </tr>
             </thead>
-            
+
             {/* Body */}
             <tbody className="divide-y divide-gray-100">
               {waitlist.map((item, index) => (
@@ -102,19 +122,23 @@ const Waitlist = () => {
                   className="group hover:bg-gray-50/50 transition-colors duration-200"
                 >
                   <td className="px-6 py-4 text-sm text-gray-500 font-medium">
-                    {(index + 1).toString().padStart(2, '0')}
+                    {(index + 1).toString().padStart(2, "0")}
                   </td>
-                  
+
                   <td className="px-6 py-4">
-                     <div className="font-semibold text-gray-900 text-sm">
-                        {item.eventName}
-                     </div>
+                    <div className="font-semibold text-gray-900 text-sm">
+                      {item.eventName}
+                    </div>
                   </td>
 
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-                        <Calendar size={14} className="text-gray-400"/>
-                        {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                      <Calendar size={14} className="text-gray-400" />
+                      {new Date().toLocaleDateString(undefined, {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </div>
                   </td>
 

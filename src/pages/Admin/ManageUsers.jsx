@@ -105,27 +105,27 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
+    <div className="w-full bg-white rounded-3xl border border-gray-200 shadow-lg overflow-hidden">
       {/* Header Section */}
-      <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
+      <div className="p-8 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <Users size={28} className="text-lime-600" />
             Manage Users
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 mt-2">
             Total{" "}
-            <span className="font-semibold text-gray-900">{users.length}</span>{" "}
+            <span className="font-bold text-gray-900">{users.length}</span>{" "}
             registered users
           </p>
         </div>
 
         {/* Pending Request Badge */}
         {users.filter((u) => u.status === "requested").length > 0 && (
-          <div className="flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl text-amber-600 border border-amber-100 animate-pulse">
-            <AlertCircle size={18} />
-            <span className="text-sm font-semibold">
+          <div className="flex items-center gap-2 bg-amber-100 px-5 py-3 rounded-xl text-amber-700 border border-amber-200">
+            <AlertCircle size={20} />
+            <span className="text-sm font-bold">
               {users.filter((u) => u.status === "requested").length} Pending
-              Requests
             </span>
           </div>
         )}
@@ -136,20 +136,20 @@ const ManageUsers = () => {
         <table className="w-full text-left border-collapse">
           {/* Head */}
           <thead>
-            <tr className="bg-gray-50/50 border-b border-gray-100">
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-gray-50 border-b border-gray-200">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 #
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 User Profile
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 Role
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">
                 Actions
               </th>
             </tr>
@@ -160,88 +160,88 @@ const ManageUsers = () => {
             {users.map((user, index) => (
               <tr
                 key={user._id}
-                className="group hover:bg-gray-50/50 transition-colors duration-200"
+                className="group hover:bg-gray-50 transition-colors duration-200"
               >
-                <td className="px-6 py-4 text-sm text-gray-500 font-medium">
+                <td className="px-8 py-5 text-sm text-gray-500 font-semibold">
                   {(index + 1).toString().padStart(2, "0")}
                 </td>
 
                 {/* Name & Email */}
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-sm">
+                <td className="px-8 py-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-lime-100 to-emerald-100 flex items-center justify-center text-lime-700 font-bold text-base shadow-sm">
                       {user.image ? (
                         <img
                           src={user.image}
                           alt=""
-                          className="w-full h-full rounded-full object-cover"
+                          className="w-full h-full rounded-xl object-cover"
                         />
                       ) : (
                         user.name?.charAt(0)
                       )}
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900 text-sm">
+                      <div className="font-bold text-gray-900 text-base">
                         {user.name}
                       </div>
-                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
-                        <Mail size={10} /> {user.email}
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
+                        <Mail size={12} /> {user.email}
                       </div>
                     </div>
                   </div>
                 </td>
 
                 {/* Role Badge */}
-                <td className="px-6 py-4">
+                <td className="px-8 py-5">
                   {user.role === "admin" ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-600 border border-purple-100">
-                      <ShieldCheck size={12} /> Admin
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-purple-100 text-purple-700">
+                      <ShieldCheck size={14} /> Admin
                     </span>
                   ) : user.role === "manager" ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
-                      <UserCheck size={12} /> Manager
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-blue-100 text-blue-700">
+                      <UserCheck size={14} /> Manager
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-500 border border-gray-100">
-                      <Users size={12} /> User
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 text-gray-700">
+                      <Users size={14} /> User
                     </span>
                   )}
                 </td>
 
                 {/* Status Badge */}
-                <td className="px-6 py-4">
+                <td className="px-8 py-5">
                   {user.status === "requested" ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-100">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-700">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                       Requested
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-lime-100 text-lime-700">
                       Verified
                     </span>
                   )}
                 </td>
 
                 {/* Actions */}
-                <td className="px-6 py-4 text-right">
-                  <div className="flex items-center justify-end gap-2">
+                <td className="px-8 py-5 text-right">
+                  <div className="flex items-center justify-end gap-3">
                     {/* Make Manager Button */}
                     {user.status === "requested" && (
                       <button
                         onClick={() => handleMakeManager(user)}
-                        className="p-2 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border border-blue-100"
+                        className="p-2.5 text-lime-700 bg-lime-100 rounded-xl hover:bg-lime-200 transition-colors"
                         title="Promote to Manager"
                       >
-                        <UserCheck size={16} />
+                        <UserCheck size={18} />
                       </button>
                     )}
                     {/* Delete Button */}
                     <button
                       onClick={() => handleDeleteUser(user)}
-                      className="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors border border-red-100"
+                      className="p-2.5 text-red-700 bg-red-100 rounded-xl hover:bg-red-200 transition-colors"
                       title="Delete User"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </td>

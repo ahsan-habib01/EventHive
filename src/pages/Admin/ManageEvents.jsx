@@ -64,19 +64,19 @@ const ManageEvents = () => {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
+    <div className="w-full bg-white rounded-3xl border border-gray-200 shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
+      <div className="p-8 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            Manage Event Requests
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            Manage Events
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Approve or reject organizer submissions
+          <p className="text-sm text-gray-500 mt-2">
+            Review and manage all event submissions
           </p>
         </div>
-        <div className="bg-purple-50 p-2 rounded-lg text-purple-600">
-          <ShieldCheck size={24} />
+        <div className="p-4 bg-lime-100 text-lime-600 rounded-2xl">
+          <ShieldCheck size={28} />
         </div>
       </div>
 
@@ -84,17 +84,17 @@ const ManageEvents = () => {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-50/50 border-b border-gray-100">
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                Event photo
+            <tr className="bg-gray-50 border-b border-gray-200">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                Event Details
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                Event Name
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                Title
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 Organizer
               </th>
-              <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+              <th className="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">
                 Actions
               </th>
             </tr>
@@ -103,38 +103,44 @@ const ManageEvents = () => {
             {events.map((event) => (
               <tr
                 key={event._id}
-                className="group hover:bg-gray-50/50 transition-colors"
+                className="group hover:bg-gray-50 transition-colors"
               >
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
+                <td className="px-8 py-5">
+                  <div className="flex items-center gap-4">
                     <img
                       src={event.image}
                       alt=""
-                      className="w-10 h-10 rounded-lg object-cover shadow-sm"
+                      className="w-16 h-16 rounded-xl object-cover shadow-md"
                     />
-                    <span className="font-semibold text-gray-900 text-sm">
+                    <span className="font-bold text-gray-900 text-base">
                       {event.name}
                     </span>
                   </div>
                 </td>
 
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-8 py-5 text-sm text-gray-600 font-medium">
                   {event.title}
                 </td>
 
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {event.organizerName}
+                <td className="px-8 py-5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lime-100 to-emerald-100 flex items-center justify-center text-lime-700 font-bold text-sm">
+                      {event.organizerName?.charAt(0)}
+                    </div>
+                    <span className="text-sm text-gray-700 font-medium">
+                      {event.organizerName}
+                    </span>
+                  </div>
                 </td>
 
-                <td className="px-6 py-4 text-right">
-                  {/* Action Buttons only if pending (Optional Logic) */}
-                  <div className="flex items-center justify-end gap-2">
+                <td className="px-8 py-5 text-right">
+                  <div className="flex items-center justify-end gap-3">
                     <button
                       onClick={() => handleDelete(event)}
-                      className="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors border border-red-100"
+                      className="p-2.5 text-red-700 bg-red-100 rounded-xl hover:bg-red-200 transition-colors"
                       title="Delete Event"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </td>

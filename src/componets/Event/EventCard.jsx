@@ -2,14 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 const EventCard = ({ event, variants }) => {
-  const {
-    title,
-    image,
-    location,
-    date,
-    price,
-    category,
-  } = event;
+  const { title, image, location, date, price, category } = event;
 
   return (
     <motion.div
@@ -39,7 +32,7 @@ const EventCard = ({ event, variants }) => {
       {/* Content */}
       <div className="card-body p-8">
         <div className="flex justify-between items-start mb-2">
-          <h2 className="card-title text-2xl font-bold tracking-tight leading-tight group-hover:text-primary transition-colors">
+          <h2 className="card-title text-2xl font-bold tracking-tight leading-tight transition-colors">
             {title}
           </h2>
 
@@ -75,7 +68,10 @@ const EventCard = ({ event, variants }) => {
 
         {/* Button */}
         <div className="card-actions mt-auto">
-          <Link to={`/event/${event._id}`} className=" btn btn-outline btn-block rounded-full border-base-300 hover:bg-black hover:text-white hover:border-black transition-all">
+          <Link
+            to={`/event/${event._id}`}
+            className=" btn btn-outline btn-block rounded-full border-base-300 hover:bg-[#a3e635] hover:text-black hover:border-black transition-all"
+          >
             Book Ticket
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +88,6 @@ const EventCard = ({ event, variants }) => {
               />
             </svg>
           </Link>
-          
-          
         </div>
       </div>
     </motion.div>

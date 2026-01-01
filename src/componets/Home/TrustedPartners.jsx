@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Paragraph from "../Shared/heading/Paragraph";
 
 const TrustedPartners = () => {
   const partners = [
@@ -11,7 +12,7 @@ const TrustedPartners = () => {
     {
       name: "Microsoft",
       logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
-    }, // Fixed from IBM to Microsoft visual match if needed, or keep originals
+    },
     {
       name: "Amazon",
       logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
@@ -21,7 +22,6 @@ const TrustedPartners = () => {
       logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
     },
 
-    // New Lifestyle/Event Logos
     {
       name: "Spotify",
       logo: "https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg",
@@ -33,20 +33,15 @@ const TrustedPartners = () => {
     {
       name: "Netflix",
       logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
-    }, // Reverted to reliably sourced SVG
-
-    // Fixed Broken Links (Eventbrite, Uber Eats)
+    },
   ];
 
-  // Duplicate list for seamless loop
   const marqueePartners = [...partners, ...partners];
 
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <p className="text-sm font-medium text-black tracking-[0.2em] uppercase mb-12">
-          Trusted by Industry Leaders
-        </p>
+        <Paragraph className="text-[18px] mb-12">Trusted by Industry Leaders</Paragraph>
 
         <div
           className="relative w-full overflow-hidden"

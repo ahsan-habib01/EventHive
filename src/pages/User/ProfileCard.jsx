@@ -13,7 +13,8 @@ import {
   Loader2,
 } from "lucide-react";
 import Swal from "sweetalert2";
-import UseAxiosSecure from "../../hooks/useAxiosSecure";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import Loading from "../../componets/Shared/Loading";
 
 const ProfileCard = () => {
   const { user: authUser, loading: authLoading } = useAuth();
@@ -59,11 +60,7 @@ const ProfileCard = () => {
 
   // 4. Loading Spinner
   if (authLoading || dataLoading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center bg-[#F9FAFB]">
-        <Loader2 className="animate-spin text-gray-400 w-10 h-10" />
-      </div>
-    );
+    return <Loading />;
   }
 
   // 5. User Object Creation (Safe Merge)
@@ -134,84 +131,104 @@ const ProfileCard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col items-center justify-center py-10 px-4 font-sans">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden relative">
+    <div className="min-h-screen  flex flex-col items-center justify-center py-12 px-4">
+      <div className="w-full max-w-lg bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden relative">
         {/* Banner */}
-        <div className="h-32 bg-gradient-to-b from-gray-50 to-white border-b border-gray-50 relative">
-          <div className="absolute top-4 right-4 px-3 py-1 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full text-[10px] font-bold text-gray-400 uppercase tracking-wider shadow-sm font-mono">
-            ID: {user.uid?.slice(-6) || "N/A"}
+        <div className="h-44 bg-gradient-to-br from-lime-500 via-emerald-500 to-teal-500 relative overflow-hidden">
+          {/* Pattern overlay */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+            }}
+          ></div>
+          <div className="absolute top-5 right-5 px-4 py-2 bg-white/20 backdrop-blur-md border border-white/40 rounded-xl text-xs font-bold text-white uppercase tracking-widest shadow-lg">
+            #{user.uid?.slice(-6) || "N/A"}
           </div>
         </div>
 
         {/* Content */}
-        <div className="px-8 pb-8 -mt-16 relative">
+        <div className="px-8 pb-10 -mt-20 relative">
           <div className="flex flex-col items-center text-center">
-            {/* Avatar Ring Color based on Role */}
-            <div
-              className={`p-1.5 rounded-full bg-white ${currentTheme.ring} ring-4 transition-all duration-300`}
-            >
-              <img
-                src={user.photoURL}
-                alt="Profile"
-                className="w-28 h-28 rounded-full object-cover border-2 border-white shadow-md"
-              />
+            {/* Avatar with gradient ring */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-emerald-400 rounded-full blur-xl opacity-30"></div>
+              <div className="relative p-2 rounded-full bg-white shadow-2xl">
+                <img
+                  src={user.photoURL}
+                  alt="Profile"
+                  className="w-36 h-36 rounded-full object-cover border-4 border-white"
+                />
+              </div>
             </div>
 
-            <div className="mt-4 space-y-1">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center justify-center gap-2">
-                {user.displayName}
-                {/* Role Icon next to Name */}
-                {user.role === "admin" && (
-                  <ShieldCheck size={18} className="text-purple-500" />
-                )}
-                {user.role === "manager" && (
-                  <CheckCircle2 size={18} className="text-blue-500" />
-                )}
-              </h2>
-              <p className="text-sm font-medium text-gray-500">{user.email}</p>
+            <div className="mt-6 space-y-3">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 flex items-center justify-center gap-2">
+                  {user.displayName}
+                  {/* Role Icon next to Name */}
+                  {user.role === "admin" && (
+                    <ShieldCheck size={22} className="text-purple-500" />
+                  )}
+                  {user.role === "manager" && (
+                    <CheckCircle2 size={22} className="text-blue-500" />
+                  )}
+                </h2>
+                <p className="text-sm text-gray-500 mt-2">{user.email}</p>
+              </div>
 
               {/* DYNAMIC ROLE BADGE */}
               <div
-                className={`mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${currentTheme.bg} ${currentTheme.text} ${currentTheme.border}`}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${currentTheme.bg} ${currentTheme.text}`}
               >
-                <RoleIcon size={12} />
+                <RoleIcon size={15} />
                 {currentTheme.label}
               </div>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-8 py-4 border-t border-b border-gray-50">
-            <div className="text-center">
-              <span className="block text-lg font-bold text-gray-900">
+          <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t-2 border-gray-100">
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-lime-100 to-emerald-100 group-hover:from-lime-200 group-hover:to-emerald-200 transition-colors duration-300 mb-3">
+                <Ticket size={20} className="text-lime-600" />
+              </div>
+              <span className="block text-3xl font-bold text-gray-900 mb-1">
                 {user.totalBookings}
               </span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase">
+              <span className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
                 Bookings
               </span>
             </div>
-            <div className="text-center">
-              <span className="block text-lg font-bold text-gray-900 capitalize">
-                {user.status}
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-100 to-cyan-100 group-hover:from-teal-200 group-hover:to-cyan-200 transition-colors duration-300 mb-3">
+                <CheckCircle2 size={20} className="text-teal-600" />
+              </div>
+              <span className="block text-3xl font-bold text-gray-900 capitalize mb-1">
+                {user.status === "verified" ? "✓" : user.status}
               </span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase">
+              <span className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
                 Status
               </span>
             </div>
-            <div className="text-center">
-              <span className="block text-lg font-bold text-gray-900">
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-100 to-orange-100 group-hover:from-yellow-200 group-hover:to-orange-200 transition-colors duration-300 mb-3">
+                <Calendar size={20} className="text-yellow-600" />
+              </div>
+              <span className="block text-3xl font-bold text-gray-900 mb-1">
                 {user.totalEvents}
               </span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase">
+              <span className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
                 Events
               </span>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="mt-8 space-y-3">
-            <button className="w-full py-3 px-4 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-              <Edit size={16} /> Edit Profile
+          <div className="mt-10 space-y-3">
+            <button className="w-full py-4 px-4 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-lime-600 hover:to-emerald-600 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+              <Edit size={18} /> Edit Profile
             </button>
 
             {/* HIDE BUTTON IF NOT USER */}
@@ -219,12 +236,13 @@ const ProfileCard = () => {
               <button
                 onClick={handleRequest}
                 disabled={user.status === "requested"}
-                className={`w-full py-3 px-4 border text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 ${
+                className={`w-full py-4 cursor-pointer px-4 text-sm font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                   user.status === "requested"
-                    ? "bg-gray-50 text-gray-400 cursor-not-allowed"
-                    : "bg-white hover:bg-gray-50 text-gray-700"
+                    ? "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed"
+                    : "bg-white hover:bg-lime-50 text-gray-800 border-2 border-gray-200 hover:border-lime-400 shadow-sm hover:shadow-md"
                 }`}
               >
+                <Sparkles size={18} />
                 {user.status === "requested"
                   ? "Request Pending..."
                   : "Request Manager Access"}
@@ -234,9 +252,9 @@ const ProfileCard = () => {
             {/* Show message for Manager/Admin */}
             {user.role !== "user" && (
               <div
-                className={`w-full py-3 px-4 text-sm font-bold rounded-xl flex items-center justify-center gap-2 border ${currentTheme.bg} ${currentTheme.text} ${currentTheme.border}`}
+                className={`w-full py-4 px-4 text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm ${currentTheme.bg} ${currentTheme.text}`}
               >
-                <currentTheme.icon size={16} />
+                <currentTheme.icon size={18} />
                 You are currently an {currentTheme.label}
               </div>
             )}

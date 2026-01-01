@@ -25,7 +25,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const isManager = role === "manager";
   const isAdmin = role === "admin";
 
-  // --- Design Change Here: Soft Active/Inactive States ---
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
       isActive
@@ -35,9 +34,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
 
   return (
     <div
-      // --- Design Change: White background, thin gray border ---
       className={`${
-        isCollapsed ? "w-20" : "w-64"
+        isCollapsed ? "w-20" : "w-60"
       } min-h-screen bg-white border-r border-gray-100 p-4 transition-all duration-300 relative flex flex-col`}
     >
       {/* Collapse Toggle Button (Minimalist Circle) */}

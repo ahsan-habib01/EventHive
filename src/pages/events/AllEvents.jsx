@@ -5,6 +5,7 @@ import api from "../../utils/api";
 import EventCard from "../../componets/Event/EventCard";
 import NoEventFound from "../../componets/Event/NoEventFound";
 import Loading from "../../componets/Shared/Loading";
+import Heading from "../../componets/Shared/heading/Heading";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -34,7 +35,7 @@ const AllEvents = () => {
     .sort((a, b) => {
       if (priceSort === "low") return a.price - b.price;
       if (priceSort === "high") return b.price - a.price;
-      return 0; 
+      return 0;
     });
 
   // Reset page when search changes
@@ -54,16 +55,16 @@ const AllEvents = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-      <h3 className="text-secondary text-4xl text-center font-extrabold mt-[150px]">
+      <Heading className="text-secondary text-4xl text-center font-extrabold pt-[120px]">
         Available Events
-      </h3>
+      </Heading>
 
       {/* Search */}
-      <div className="flex justify-center mt-6 gap-4">
+      <div className="flex  justify-center mt-6 gap-4">
         <input
           type="text"
           placeholder="Search events..."
-          className="border border-gray-300 rounded-lg px-4 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-primary"
+          className="border bg-white border-gray-300 rounded-lg px-4 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-primary"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
@@ -71,7 +72,7 @@ const AllEvents = () => {
         <select
           value={priceSort}
           onChange={(e) => setPriceSort(e.target.value)}
-          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary"
+          className="border bg-white border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary"
         >
           <option value="">Sort by Price</option>
           <option value="low">Price: Low to High</option>
@@ -83,7 +84,7 @@ const AllEvents = () => {
         {currentItems.length > 0 ? (
           <>
             {/* Event Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-12">
               {currentItems.map((event) => (
                 <EventCard key={event._id} event={event} />
               ))}

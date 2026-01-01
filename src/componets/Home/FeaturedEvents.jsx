@@ -1,9 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import EventCard from '../Event/EventCard';
-import { useQuery } from '@tanstack/react-query';
-import UseAxiosSecure from '../../hooks/UseAxiosSecure';
-import Loading from '../Shared/Loading'; // if not already imported
+import React from "react";
+import { motion } from "framer-motion";
+import EventCard from "../Event/EventCard";
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import Loading from "../Shared/Loading"; // if not already imported
+import Paragraph from "../Shared/heading/Paragraph";
+import Heading from "../Shared/heading/Heading";
 
 const FeaturedEvents = () => {
   const axiosSecure = UseAxiosSecure();
@@ -19,13 +21,20 @@ const FeaturedEvents = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="py-24 bg-base-100">
+    <div className="pb-12 pt-12 bg-[#fafafa]">
+      <div className="text-center mb-16">
+        <div className="inline-block px-4 py-1.5 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-600 mb-6 shadow-sm">
+          Feature
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-extrabold mb-4">Featured Events</h2>
-          <p className="text-xl text-base-content-secondary max-w-2xl mx-auto">
+          <Heading className="text-5xl font-extrabold mb-4">
+            Featured Events
+          </Heading>
+          <Paragraph className="text-[16px]  text-gray-600 max-w-2xl mx-auto">
             Don't miss out on these trending events happening around you.
-          </p>
+          </Paragraph>
         </div>
 
         <motion.div
@@ -40,7 +49,7 @@ const FeaturedEvents = () => {
         </motion.div>
 
         <div className="text-center mt-16">
-          <button className="btn btn-outline btn-lg rounded-full px-10">
+          <button className="btn btn-outline btn-lg rounded-full px-10 bg-[#a3e635] text-black hover:bg-black hover:text-[#a3e635]">
             View All Events
           </button>
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Logo = ({ size = "md", className = "" }) => {
+const Logo = ({ size = "md", className = "", isTransparent = false }) => {
   const sizes = {
     sm: { text: "text-xl", icon: "w-7 h-7" },
     md: { text: "text-2xl", icon: "w-9 h-9" },
@@ -17,12 +17,17 @@ const Logo = ({ size = "md", className = "" }) => {
         <img
           src="https://i.postimg.cc/hv2Wbqk7/d1814a585348753277d4ea9452de2e01-removebg-preview.png"
           alt="logo"
+          className={isTransparent ? "brightness-0 invert" : ""}
         />
       </div>
 
-      {/* Text with gradient */}
+      {/* Text with gradient or white */}
       <span
-        className={`font-bold tracking-tight ${currentSize.text} bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 bg-clip-text text-transparent`}
+        className={`font-bold tracking-tight ${currentSize.text} ${
+          isTransparent
+            ? "text-white"
+            : "bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 bg-clip-text text-transparent"
+        }`}
       >
         EventHive
       </span>

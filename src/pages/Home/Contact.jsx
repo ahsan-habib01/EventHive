@@ -6,6 +6,8 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Heading from "../../componets/Shared/heading/Heading";
+import Paragraph from "../../componets/Shared/heading/Paragraph";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -24,92 +26,89 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-20 px-6 font-sans text-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white py-32 px-6 relative overflow-hidden">
       {/* Background Decoration */}
-      <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-indigo-100 rounded-full blur-3xl opacity-50 -z-10"></div>
-      <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-blue-50 rounded-full blur-3xl opacity-50 -z-10"></div>
+      <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-lime-100 rounded-full blur-3xl opacity-40 -z-10"></div>
+      <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-emerald-50 rounded-full blur-3xl opacity-40 -z-10"></div>
 
       {/* --- Header --- */}
-      <div className="max-w-4xl mx-auto text-center mb-16 pt-10">
-        <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-sm font-semibold mb-4 tracking-wide uppercase">
-          Contact Support
+      <div className="max-w-4xl mx-auto text-center mb-20">
+        <span className="inline-block py-2 px-5 rounded-full bg-gradient-to-r from-emerald-100 to-lime-100 text-emerald-700 text-sm font-semibold mb-6 tracking-wider uppercase border border-emerald-200">
+          Contact Us
         </span>
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-slate-900">
+        <Heading className="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900">
           Get in{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-lime-500 to-yellow-500">
             Touch
           </span>
-        </h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        </Heading>
+        <Paragraph className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
           Have questions? Want to host a mega event? Or just want to say hi? We
           are all ears! Drop us a message below.
-        </p>
+        </Paragraph>
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* --- LEFT SIDE: Contact Info --- */}
         <div className="space-y-8">
-          <div className="prose prose-lg">
-            <h2 className="text-3xl font-bold text-slate-900">
+          <div>
+            <Heading className=" font-bold text-gray-900 mb-4">
               Let's start a conversation
-            </h2>
-            <p className="text-slate-500">
+            </Heading>
+            <Paragraph className="text-gray-600 text-lg">
               We're here to help and answer any question you might have. We look
               forward to hearing from you.
-            </p>
+            </Paragraph>
           </div>
 
           {/* Card 1: Address */}
-          <div className="flex items-start gap-5 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-            <div className="w-12 h-12 bg-indigo-50 text-indigo-600 flex items-center justify-center rounded-full text-xl flex-shrink-0">
+          <div className="group flex items-start gap-5 p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-lime-500 text-white flex items-center justify-center rounded-xl text-xl flex-shrink-0 shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
               <FaMapMarkerAlt />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
-                Visit Us
-              </h3>
-              <p className="text-slate-600 leading-relaxed text-sm">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Visit Us</h3>
+              <Paragraph className="text-gray-600 leading-relaxed text-base">
                 123 Event Street, Creative Block, <br />
                 Dhaka, Bangladesh
-              </p>
+              </Paragraph>
             </div>
           </div>
 
           {/* Card 2: Email */}
-          <div className="flex items-start gap-5 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-            <div className="w-12 h-12 bg-blue-50 text-blue-600 flex items-center justify-center rounded-full text-xl flex-shrink-0">
+          <div className="group flex items-start gap-5 p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-emerald-500 text-white flex items-center justify-center rounded-xl text-xl flex-shrink-0 shadow-lg shadow-teal-500/30 group-hover:scale-110 transition-transform duration-300">
               <FaEnvelope />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
-                Email Us
-              </h3>
-              <p className="text-slate-600 text-sm">support@eventhost.com</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Email Us</h3>
+              <Paragraph className="text-gray-600 text-base">
+                support@eventhive.com
+              </Paragraph>
             </div>
           </div>
 
           {/* Card 3: Phone */}
-          <div className="flex items-start gap-5 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 flex items-center justify-center rounded-full text-xl flex-shrink-0">
+          <div className="group flex items-start gap-5 p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <div className="w-14 h-14 bg-gradient-to-br from-lime-400 to-yellow-500 text-white flex items-center justify-center rounded-xl text-xl flex-shrink-0 shadow-lg shadow-lime-500/30 group-hover:scale-110 transition-transform duration-300">
               <FaPhoneAlt />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">Call Us</h3>
-              <p className="text-slate-600 text-sm">+880 123 456 7890</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Call Us</h3>
+              <Paragraph className="text-gray-600 text-base">
+                +880 123 456 7890
+              </Paragraph>
             </div>
           </div>
         </div>
 
-        {/* --- RIGHT SIDE: Contact Form --- */}
-        <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 relative">
-          <h2 className="text-2xl font-bold mb-8 text-slate-900 flex items-center gap-2">
+        <div className="bg-white rounded-3xl p-10 md:p-12 shadow-2xl border border-gray-100 relative">
+          <Heading className=" font-bold mb-8 text-gray-900">
             Send a Message
-          </h2>
+          </Heading>
 
           <form onSubmit={handleSubscribe} className="space-y-6">
-            {/* Name Input */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
                 Your Name
               </label>
               <input
@@ -117,13 +116,12 @@ const Contact = () => {
                 onChange={(e) => setName(e.target.value)}
                 type="text"
                 placeholder="John Doe"
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400"
+                className="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all text-gray-800 placeholder-gray-400"
               />
             </div>
 
-            {/* Email Input */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
                 Email Address
               </label>
               <input
@@ -131,13 +129,12 @@ const Contact = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="john@example.com"
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400"
+                className="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all text-gray-800 placeholder-gray-400"
               />
             </div>
 
-            {/* Subject Input */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
                 Subject
               </label>
               <input
@@ -145,30 +142,27 @@ const Contact = () => {
                 onChange={(e) => setSubject(e.target.value)}
                 type="text"
                 placeholder="Hosting Inquiry..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400"
+                className="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all text-gray-800 placeholder-gray-400"
               />
             </div>
 
-            {/* Message Textarea */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
                 Your Message
               </label>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                rows="4"
+                rows="5"
                 placeholder="Tell us everything..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400 resize-none"
+                className="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all text-gray-800 placeholder-gray-400 resize-none"
               ></textarea>
             </div>
-
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full py-5 bg-gradient-to-r from-[#a3e635] to-[#72b605] text-black font-bold text-lg rounded-xl shadow-2xl shadow-lime-500/40 hover:shadow-lime-500/60 hover:scale-[1.02] cursor-pointer transition-all duration-300 flex items-center justify-center gap-3"
             >
-              <FaPaperPlane className="text-sm" /> Send Message
+              <FaPaperPlane className="text-base" /> Send Message
             </button>
           </form>
         </div>

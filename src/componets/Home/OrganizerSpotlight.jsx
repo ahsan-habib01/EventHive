@@ -1,4 +1,6 @@
 import React from "react";
+import Heading from "../Shared/heading/Heading";
+import Paragraph from "../Shared/heading/Paragraph";
 
 const OrganizerSpotlight = () => {
   const organizers = [
@@ -37,18 +39,18 @@ const OrganizerSpotlight = () => {
   ];
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-15 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-1.5 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-600 mb-6 shadow-sm">
             Organizer Spotlight
           </div>
-          <h2 className="text-5xl font-medium tracking-tight text-gray-900 mb-4">
+          <Heading className="text-5xl font-medium tracking-tight text-gray-900 mb-4">
             Insights and Innovations
-          </h2>
-          <p className="text-gray-500 text-lg">
+          </Heading>
+          <Paragraph className="text-gray-500 text-lg">
             Stay updated with our latest articles, tips, and industry trends
-          </p>
+          </Paragraph>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -69,15 +71,9 @@ const OrganizerSpotlight = () => {
                 {organizer.name}: {organizer.role}
               </h3>
 
-              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              <p className="text-gray-500 text-sm leading-relaxed">
                 {organizer.description}
               </p>
-
-              <div className="mt-auto">
-                <button className="btn btn-outline btn-sm h-10 px-6 rounded-full border-gray-200 text-gray-700 hover:bg-black hover:text-white hover:border-black transition-all normal-case font-medium w-full">
-                  View Profile
-                </button>
-              </div>
             </div>
           ))}
         </div>

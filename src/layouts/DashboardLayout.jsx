@@ -6,7 +6,7 @@ const DashboardLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f9f5f6]">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Navbar - Top */}
 
       {/* Main Area - Sidebar + Content */}

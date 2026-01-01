@@ -1,6 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { Users, Calendar, DollarSign, TrendingUp } from "lucide-react";
+import {
+  Users,
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  BarChart3,
+} from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
 import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import Loading from "../../componets/Shared/Loading";
 
 const AdminStats = () => {
   const axiosSecure = UseAxiosSecure();
@@ -31,11 +48,7 @@ const AdminStats = () => {
 
   // Loading State
   if (usersLoading || eventsLoading) {
-    return (
-      <div className="p-10 text-center text-gray-500">
-        Loading dashboard stats...
-      </div>
-    );
+    return <Loading />;
   }
 
   const statCards = [
@@ -43,40 +56,76 @@ const AdminStats = () => {
       title: "Total Users",
       value: users.length,
       icon: Users,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
     },
     {
       title: "Total Events",
       value: events.length,
       icon: Calendar,
-      color: "text-orange-600",
-      bg: "bg-orange-50",
     },
     {
       title: "Total Revenue",
       value: `Tk ${totalRevenue}`,
       icon: DollarSign,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
     },
   ];
 
-  return (
-    <div className="space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-end">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Dashboard Overview
-          </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Welcome back, Admin! Here's what's happening today.
+  // Chart data
+  const chartData = [
+    {
+      name: "Users",
+      value: users.length,
+      color: "#a3e635",
+    },
+    {
+      name: "Events",
+      value: events.length,
+      color: "#2dd4bf",
+    },
+    {
+      name: "Revenue",
+      value: totalRevenue,
+      color: "#fbbf24",
+    },
+  ];
+
+  // Custom tooltip for chart
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white px-4 py-3 rounded-xl shadow-lg border border-gray-200">
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+            {payload[0].payload.name}
+          </p>
+          <p className="text-lg font-black text-gray-900">
+            {payload[0].payload.name === "Revenue"
+              ? `Tk ${payload[0].value}`
+              : payload[0].value}
           </p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-600 shadow-sm">
-          <TrendingUp size={16} />
-          <span>Growth +12%</span>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="relative bg-gradient-to-br from-gray-50 via-lime-50/30 to-gray-50 p-8 rounded-3xl border border-gray-200 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-400/5 rounded-full blur-3xl"></div>
+
+        <div className="relative">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-lime-100 text-lime-700 rounded-xl text-xs font-bold uppercase tracking-wide mb-4">
+            <div className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></div>
+            Live Dashboard
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Dashboard Overview
+          </h2>
+          <p className="text-sm text-gray-600 mt-2">
+            Welcome back, Admin! Here's what's happening today.
+          </p>
         </div>
       </div>
 
@@ -85,23 +134,81 @@ const AdminStats = () => {
         {statCards.map((stat, index) => (
           <div
             key={index}
-            className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-300"
+            className="relative bg-white p-8 rounded-3xl border-2 border-gray-200 hover:border-lime-400 transition-all duration-300 group overflow-hidden"
           >
-            <div className="flex justify-between items-start">
+            {/* Hover gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-lime-50/0 to-emerald-50/0 group-hover:from-lime-50/50 group-hover:to-emerald-50/30 transition-all duration-500"></div>
+
+            {/* Content */}
+            <div className="relative flex flex-col">
+              <div className="flex items-center justify-between mb-6">
+                <div className="p-4 rounded-2xl bg-gray-100 text-gray-400 group-hover:bg-gradient-to-br group-hover:from-lime-100 group-hover:to-emerald-100 group-hover:text-lime-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 transform">
+                  <stat.icon size={28} strokeWidth={2.5} />
+                </div>
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 group-hover:text-lime-600 transition-colors">
+                  <div className="w-1.5 h-1.5 bg-gray-300 group-hover:bg-lime-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-300 group-hover:bg-lime-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-300 group-hover:bg-lime-500 rounded-full"></div>
+                </div>
+              </div>
+
               <div>
-                <p className="text-sm font-medium text-gray-500 mb-1">
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
                   {stat.title}
                 </p>
-                <h3 className="text-3xl font-bold text-gray-900">
+                <h3 className="text-4xl font-black text-gray-900 group-hover:text-lime-600 transition-colors">
                   {stat.value}
                 </h3>
-              </div>
-              <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-                <stat.icon size={20} />
               </div>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Chart Section */}
+      <div className="bg-white p-8 rounded-3xl border-2 border-gray-200">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <BarChart3 className="text-lime-600" size={24} />
+              Statistics Overview
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">
+              Visual representation of key metrics
+            </p>
+          </div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold">
+            <TrendingUp size={16} />
+            Analytics
+          </div>
+        </div>
+
+        <ResponsiveContainer width="100%" height={350}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis
+              dataKey="name"
+              tick={{ fill: "#6b7280", fontSize: 12, fontWeight: 600 }}
+              axisLine={{ stroke: "#e5e7eb" }}
+            />
+            <YAxis
+              tick={{ fill: "#6b7280", fontSize: 12, fontWeight: 600 }}
+              axisLine={{ stroke: "#e5e7eb" }}
+            />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: "rgba(163, 230, 53, 0.1)" }}
+            />
+            <Bar dataKey="value" radius={[12, 12, 0, 0]} barSize={80}>
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
